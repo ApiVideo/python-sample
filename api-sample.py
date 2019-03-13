@@ -15,9 +15,9 @@ def read_in_chunks(file_object, chunk_size=10485760):
         	break
         yield data
 
-def login():
+def login(apiKey):
 	global headers
-	payload = {"apiKey": "XXXX"}
+	payload = {"apiKey": apiKey}
 	response = requests.request("POST", "/auth/api-key", data=json.dumps(payload), headers=headers)
 	jsonResponse = response.json()
 	headers = {'content-type': 'application/json', 'Authorization': 'Bearer '+jsonResponse['access_token']}
@@ -39,10 +39,10 @@ def patch(videoJson):
 	jsonResponse = response.json()
 	return jsonResponse
 
-def upload(videoJson):
+def upload(videoJson, source):
 	global headers
 	uriUpload = videoJson['source']['uri']
-	file = {'file': open('/path/to/source.mp4', 'rb')}
+	file = {'file': open(source, 'rb')}
 	if 'content-type' in headers:
 		del headers['content-type']
 	response = requests.request("POST", uriUpload, files=file, headers=headers)
@@ -50,19 +50,18 @@ def upload(videoJson):
 	videoId = jsonResponse['videoId']
 	return videoId
 
-def uploadByChunk(videoJson):
+def uploadByChunk(videoJson, source):
 	global headers
 	uriUpload = videoJson['source']['uri']
-	path = '/path/to/source.mp4'
 
 	if 'content-type' in headers:
 		del headers['content-type']
 
-	content_size = os.stat(path).st_size
+	content_size = os.stat(source).st_size
 	headers['Expect'] = '100-Continue'
 	headers['Content-Type'] = 'application/octet-stream'
 	headers['Content-Disposition'] = 'form-data'
-	file = open(path)
+	file = open(source)
 	index=0
 	offset=0
 
