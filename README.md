@@ -1,5 +1,5 @@
 # python-sample
-This script provide basic methods around "video" resoure to help you requesting api.video web-service in python.
+This script provide basic methods around "video" resource to help you requesting api.video web-service in python.
 
 You will find methods to perform following actions:
 
