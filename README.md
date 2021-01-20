@@ -1,3 +1,4 @@
+![](https://github.com/apivideo/API_OAS_file/blob/master/apivideo_banner.png)
 # python-sample
 This script provide basic methods around "video" resource to help you requesting api.video web-service in python.
 
